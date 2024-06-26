@@ -1,0 +1,52 @@
+services:
+  php:
+    build: 
+      context: ./docker
+      dockerfile: ./app.Dockerfile
+    tty: true
+    container_name: todo-app
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql.local
+      - mysql.test
+
+  mysql.local:
+    build: 
+      context: ./docker
+      dockerfile: ./database.Dockerfile
+    container_name: todo-db-local
+    volumes:
+      - ./database.local/mysql/mysql.conf:/etc/mysql/mysql.conf
+      - ./database.local/mysql/lib:/var/lib/mysql
+      - ./database.local/mysql/logs:/var/log/database
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: root
+      TZ: "Asia/Tokyo"
+      LC_ALL: "C.UTF-8"
+
+  mysql.test:
+    build: 
+      context: ./docker
+      dockerfile: ./database.Dockerfile
+    container_name: todo-db-test
+    volumes:
+      - ./database.test/mysql/mysql.conf:/etc/mysql/mysql.conf
+      - ./database.test/mysql/lib:/var/lib/mysql
+      - ./database.test/mysql/logs:/var/log/database
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: root
+      TZ: "Asia/Tokyo"
+      LC_ALL: "C.UTF-8"
