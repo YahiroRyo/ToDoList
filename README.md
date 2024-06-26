@@ -6,4 +6,6 @@ This repository is an example of a layered architecture.
 docker compose up
 docker compose exec php bash
 composer i
+php artisan migrate
 ```
+and... access to http://localhost:8080
