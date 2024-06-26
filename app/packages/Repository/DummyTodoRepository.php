@@ -21,29 +21,16 @@ class TodoRepository implements TodoRepositoryInterface
     }
     public function create(Todo $todo): Todo
     {
-        $todoModel = TodoModel::create([
-            'contents' => $todo->getContents()->value(),
-        ]);
-
-        return Todo::create(
-            Id::create($todoModel->id),
-            $todo->getContents(),
-        );
+        return Todo::create(Id::create(1), $todo->getContents());
     }
 
     public function edit(Todo $todo): Todo
     {
-        $todoModel = TodoModel::find($todo->getId()->value());
-
-        $todoModel->update($todo->toArray());
-
         return $todo;
     }
 
     public function delete(Todo $todo): Todo
     {
-        TodoModel::find($todo->getId()->value())->delete();
-
         return $todo;
     }
 }
