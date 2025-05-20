@@ -8,6 +8,7 @@ class Id
 {
     private int $value;
 
+    // privateなコンストラクタを定義
     private function __construct(int $value)
     {
         $this->value = $value;
@@ -18,11 +19,13 @@ class Id
         return $this->value;
     }
 
+    // バリデーションを行わないunsafeなcreateメソッド
     public static function unsafeCreate()
     {
         return new Id(0);
     }
 
+    // バリデーションを行うcreateメソッド
     public static function create(int $value)
     {
         Validator::make(

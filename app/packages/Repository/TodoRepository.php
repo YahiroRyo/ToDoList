@@ -19,12 +19,16 @@ class TodoRepository implements TodoRepositoryInterface
             );
         });
     }
+
+    // タスク新規作成
     public function create(Todo $todo): Todo
     {
+        // EntityのTodoをEloquentModel(ORM)に変換
         $todoModel = TodoModel::create([
             'contents' => $todo->getContents()->value(),
         ]);
 
+        // 保存したEloquentModelをEntityに変換して返す
         return Todo::create(
             Id::create($todoModel->id),
             $todo->getContents(),

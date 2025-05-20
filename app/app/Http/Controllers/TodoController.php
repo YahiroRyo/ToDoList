@@ -36,12 +36,16 @@ class TodoController extends Controller
         return view('index', ['todos' => $todos]);
     }
 
+    // タスク新規作成
     public function create(CreateTodoRequest $request)
     {
+        // リクエストされた内容をエンティティに変換
         $todo = $request->toDomain();
 
+        // エンティティを保存
         $createdTodo = $this->createTodoService->execute($todo);
 
+        // 保存したエンティティを配列に変換して返す
         return $createdTodo->toArray();
     }
 

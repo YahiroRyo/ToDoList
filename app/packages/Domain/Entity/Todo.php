@@ -10,6 +10,7 @@ class Todo
     private Id $id;
     private Contents $contents;
 
+    // privateなコンストラクタを定義
     private function __construct(Id $id, Contents $contents)
     {
         $this->id = $id;
@@ -34,6 +35,7 @@ class Todo
         ];
     }
 
+    // エンティティを作成するメソッド
     public static function create(Id $id, Contents $contents)
     {
         return new Todo($id, $contents);
