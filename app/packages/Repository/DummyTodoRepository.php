@@ -8,17 +8,13 @@ use Packages\Domain\Entity\Todo;
 use Packages\Domain\ValueObjects\Todo\Contents;
 use Packages\Domain\ValueObjects\Todo\Id;
 
-class TodoRepository implements TodoRepositoryInterface
+class DummyTodoRepository implements TodoRepositoryInterface
 {
     public function getTodos(): Collection
     {
-        return TodoModel::all()->map(function($todoModel) {
-            return Todo::create(
-                Id::create($todoModel->id),
-                Contents::create($todoModel->contents)
-            );
-        });
+        return collect([Todo::create(Id::create(1), Contents::create("内容"))]);
     }
+
     public function create(Todo $todo): Todo
     {
         return Todo::create(Id::create(1), $todo->getContents());

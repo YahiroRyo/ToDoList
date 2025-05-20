@@ -28,7 +28,7 @@ class CreateTodoRequest extends FormRequest
         ];
     }
 
-    public function to()
+    public function toDomain(): Todo
     {
         return Todo::create(
             Id::unsafeCreate(),

@@ -5,47 +5,60 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Todo\CreateTodoRequest;
 use App\Http\Requests\Todo\DeleteTodoRequest;
 use App\Http\Requests\Todo\EditTodoRequest;
-use Packages\Service\TodoService;
+use Packages\Service\GetTodosService;
+use Packages\Service\CreateTodoService;
+use Packages\Service\EditTodoService;
+use Packages\Service\DeleteTodoService;
 
 class TodoController extends Controller
 {
-    private TodoService $todoService;
+    private GetTodosService $getTodosService;
+    private CreateTodoService $createTodoService;
+    private EditTodoService $editTodoService;
+    private DeleteTodoService $deleteTodoService;
 
-    public function __construct(TodoService $todoService)
-    {
-        $this->todoService = $todoService;
+    public function __construct(
+        GetTodosService $getTodosService,
+        CreateTodoService $createTodoService,
+        EditTodoService $editTodoService,
+        DeleteTodoService $deleteTodoService
+    ) {
+        $this->getTodosService = $getTodosService;
+        $this->createTodoService = $createTodoService;
+        $this->editTodoService = $editTodoService;
+        $this->deleteTodoService = $deleteTodoService;
     }
 
     public function index()
     {
-        $todos = $this->todoService->getTodos();
+        $todos = $this->getTodosService->execute();
 
         return view('index', ['todos' => $todos]);
     }
 
     public function create(CreateTodoRequest $request)
     {
-        $todo = $request->to();
+        $todo = $request->toDomain();
 
-        $createdTodo = $this->todoService->create($todo);
+        $createdTodo = $this->createTodoService->execute($todo);
 
         return $createdTodo->toArray();
     }
 
     public function edit(EditTodoRequest $request)
     {
-        $todo = $request->to();
+        $todo = $request->toDomain();
 
-        $editedTodo = $this->todoService->edit($todo);
+        $editedTodo = $this->editTodoService->execute($todo);
 
         return $editedTodo->toArray();
     }
 
     public function delete(DeleteTodoRequest $request)
     {
-        $todo = $request->to();
+        $todo = $request->toDomain();
 
-        $deletedTodo = $this->todoService->delete($todo);
+        $deletedTodo = $this->deleteTodoService->execute($todo);
 
         return $deletedTodo->toArray();
     }

@@ -29,7 +29,7 @@ class EditTodoRequest extends FormRequest
         ];
     }
 
-    public function to()
+    public function toDomain(): Todo
     {
         return Todo::create(
             Id::create(intval($this->id)),
