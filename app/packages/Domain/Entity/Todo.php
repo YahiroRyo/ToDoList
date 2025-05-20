@@ -27,6 +27,16 @@ class Todo
         return $this->contents;
     }
 
+    public function setId(Id $id)
+    {
+        return new Todo($id, $this->contents);
+    }
+
+    public function setContents(Contents $contents)
+    {
+        return new Todo($this->id, $contents);
+    }
+
     public function toArray()
     {
         return [
